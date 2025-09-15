@@ -1,0 +1,229 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <windows.h>
+#include <vector>
+#include <cmath>
+
+using namespace std;
+
+void showMenu();
+
+void task1();
+void task2_1(); // int, double
+void task2_2(); // bool
+void task2_3(); // char
+void task3();
+void task4();
+void task5();
+void task6();
+void task7();
+void task8();
+void task9();
+void task10();
+void task11();
+void task12();
+int main()
+{
+  showMenu();
+
+  return 0;
+}
+
+void showMenu()
+{
+  while (true)
+  {
+    cout << "\n=== MENU ===\n";
+    cout << "1 - Variables" << endl;
+    cout << "21 - Data types(int,double)" << endl;
+    cout << "22 - Data types(bool)" << endl;
+    cout << "23 - Data types(char)" << endl;
+    cout << "3 - switch-case (mini game)" << endl;
+    cout << "4 - if-else (rock/paper/scissors)" << endl;
+    cout << "5 - while" << endl;
+    cout << "6 - for" << endl;
+    cout << "7 - pointer" << endl;
+    cout << "8 - link" << endl;
+    cout << "9 - massive" << endl;
+    cout << "10 - function" << endl;
+    cout << "11 - massive+func" << endl;
+    cout << "12 - struct" << endl;
+    cout << "0 - exit" << endl;
+
+    int item;
+
+    if (item == 0) break;
+
+    switch (item)
+    {
+    case 1: task1(); 
+          break;
+    case 21: task2_1(); break;
+    case 22: task2_2(); break;
+    case 23: task2_3(); break;
+    case 3: task3(); 
+          break;
+    case 4: task4(); 
+          break;
+    case 5: task5(); break;
+    case 6: task6(); break;
+    case 7: task7(); break;
+    case 8: task6(); break;
+    case 9: task9(); break;
+    case 10: task10(); break;
+    case 11: task11(); break;
+    case 12: task12(); break;
+    default: cout << "Invalid choice!" << endl;
+    }
+  }
+}
+
+void task1() {
+    string name;
+    int age;
+    cout << "Your name and age";
+    cin >> name >> age;
+    cout << "Hello, " << name << "! In 10 years you'll be " << age + 10 << " years old and you'll already be cool programer";
+}
+
+void task2_1() {
+    int a, b, c, d, e;
+    cin >> a >> b >> c >> d >> e;
+    cout << (a + b + c + d + e) / 5.0;
+}
+
+void task2_2() {
+    int age;
+    cin >> age;
+    cout << (age >= 18 ? "yes" : "No");
+}
+
+void task2_3() {
+    char a;
+    cin >> a;
+    cout << (int)a;
+}
+
+
+void task3() {
+    string ch;
+    while (true) {
+        cout << "If you want to stop? print 5? else choose 1(left), 2(right), 3(forward), 4(behind)" << endl;
+        cin >> ch;
+        if (ch == "1") { cout << "You met the dragon" << endl; }
+        else if (ch == "2") { cout << "You found gold" << endl;}
+        else if (ch == "3") { cout << "You went to the river" <<endl; }
+        else if (ch == "4") { cout << "You are on the startagain" << endl; }
+        else if (ch == "5") { break; }
+        else { cout << "Wrong input" << endl; }
+    }
+}
+
+void task4() {
+    vector<int>res = { 1,2,3 };
+    string ans;
+    int answer;
+    while (true) {
+        cout << "If you want to stop type 'stop'(else type rock, paper or scisors)" << endl;
+        cin >> ans;
+        random_shuffle(res.begin(), res.end());
+        if (ans == "rock") {
+            answer = 3;
+            if (answer == res[0]) {
+                cout << "draw" << endl;
+            }
+            else if (res[0] == 1) {
+                cout << "you win" << endl;
+            }
+            else { cout << "you lose" << endl; }
+        }
+        else if (ans == "scissors") {
+            answer = 2;
+            if (answer == res[0]) {
+                cout << "draw" << endl;
+            }
+            else if (res[0] == 3) {
+                cout << "you win" << endl;
+            }
+            else { cout << "you lose" << endl; }
+        }
+        else if (ans == "paper") {
+            answer = 1;
+            if (answer == res[0]) {
+                cout << "draw" << endl;
+            }
+            else if (res[0] == 1) {
+                cout << "you win" << endl;
+            }
+            else { cout << "you lose" << endl; }
+        }
+        else if (ans == "stop") { break; }
+        else { cout << "Wrong input" << endl; }
+    }
+}
+
+
+void task5() {
+    double money;
+    cin >> money;
+    cout << ceil(1000 / money);
+}
+
+void task6() {
+    int numb;
+    cin >> numb;
+    for (int i = 0; i < numb; i++) { cout << "#"; }
+}
+
+void task7() {
+    int a;
+    cin >> a;
+    int* b = &a;
+    cout << a << endl << b << endl;
+    b += 1;
+    cout << a;
+}
+
+
+void task8() {
+    int x;
+    cin >> x;
+    int& xss = x;
+    xss -= 1;
+    cout << x;
+    
+}
+
+
+void task9() {
+    int marks[5];
+    cin >> marks[0] >> marks[1] >> marks[2] >> marks[3] >> marks[4];
+    cout << "Average: " << (marks[0] + marks[1] + marks[2] + marks[3] + marks[4]) / 5.0<<endl;
+    for (int i = 0; i < 5; i++) {
+        for (int w = 0; w < 4; w++) {
+            if (marks[w + 1] < marks[w]) { swap(marks[w],marks[w + 1]); }
+        }
+    }
+    cout << "max: " << marks[4] << ", min: " << marks[0];
+    
+}
+void levelUp1(int lev, int ch) {
+    lev += ch;
+}
+void levelUp2(int* lev, int ch) {
+    *lev += ch;
+}
+void levelUp3(int& lev, int ch) {
+    lev += ch;
+}
+void task10() {
+    int lev,ch;
+    cin >> lev>>ch;
+    levelUp1(lev, ch);
+    cout << lev<<endl;
+    levelUp2(&lev, ch);
+    cout << lev<<endl;
+    levelUp3(lev, ch);
+    cout << lev<<endl;
+}
