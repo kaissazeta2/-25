@@ -1,0 +1,288 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+using namespace std;
+const string FFF = "books.txt";
+struct User {
+    string name;
+    string password;
+    bool admin;
+};
+
+void writeFileBooks(string bookname) {
+    ofstream fadd(FFF, ios::app);
+    fadd << bookname << endl;
+    fadd.close();
+
+}
+
+
+
+void readFileBooks(string*& books, int &bookssize) {
+    ifstream fin(FFF, ios::in);
+    string bookname;
+    vector<string> bookss{};
+    int bookssize = 0;
+    while (!fin.eof()) {
+        fin >> bookss.push_back();
+        bookssize++;
+    }
+    fin.close();
+    delete[] books;
+    books = new string[bookssize]{};
+    int j = 0;
+    ifstream fin(FFF, ios::in);
+    while (!fin.eof()) {
+        fin >> books[j];
+        j++;
+    }
+    fin.close();
+}
+
+
+
+
+void regist(User* &users, string*& books,int& size,int& bookssize, int&i) {
+    int t = 1;
+    User user;
+    string username;
+    cout << "username: ";
+    cin >> username;
+    if (users == nullptr) {
+        size = 1;
+    }
+    else {
+        for (int w = 0; w < size; w++) {
+            if (users[w].name == username) {
+                cout << "This username already exists\n";
+                t = 0;
+                break;
+            }
+        }
+    }
+    if (t == 1) {
+        i += 1;
+        string pasword;
+        cout << "password: ";
+        cin >> pasword;
+
+        if (users == nullptr) {
+            size = 1;
+            User* nums = new User[1]{};
+            nums[0].name = username;
+            nums[0].password = pasword;
+            nums[0].admin = 1;
+            delete[] users;
+            users = nums;
+        }
+        else {
+            User* nums = new User[size + 1]{};
+            for (int l = 0; l < size; l++) {
+                nums[l] = users[l];
+            }
+            nums[size].name = username;
+            nums[size].password = pasword;
+            nums[size].admin = 0;
+            delete[] users;
+            users = nums;
+            size += 1;
+        }
+
+
+    }
+}
+
+
+void seebooks(string*& books, int& bookssize) {
+    if (books == nullptr) {
+        cout << "There's no books\n";
+    }
+    else {
+        for (int l = 0; l < bookssize; l++) {
+            cout << books[l] << endl;
+
+        }
+    }
+}
+
+
+
+
+void addbooks(string*& books, int& bookssize) {
+    string bookname;
+    cout << "Print name of the book\n";
+    cin >> bookname;
+    writeFileBooks(bookname);
+    if (books == nullptr) {
+        bookssize = 1;
+        string* nums = new string[1]{};
+        nums[0] = bookname;
+        delete[] books;
+        books = nums;
+    }
+    else {
+        string* nums = new string[bookssize + 1]{};
+        for (int l = 0; l < bookssize; l++) {
+            nums[l] = books[l];
+        }
+        nums[bookssize] = bookname;
+        delete[] books;
+        books = nums;
+        delete[] nums;
+        bookssize += 1;
+    }
+}
+
+
+
+
+
+
+
+
+
+void login(User*& users, string*& books, int& size, int& bookssize, int& i) {
+    string username; string pasword; int t2 = 0;
+    cout << "username: ";
+    cin >> username;
+    for (int w = 0; w < size; w++) {
+        if (users[w].name == username) {
+            t2 = 1;
+            break;
+        }
+    }
+    if (t2 == 0) { cout << "There's no such username\n"; }
+    else {
+        int ww = -1;
+        t2 = 0;
+        cout << "password: ";
+        cin >> pasword;
+        for (int w = 0; w < size; w++) {
+            if (users[w].password == pasword && users[w].name == username) {
+                t2 = 1;
+                ww = w;
+                break;
+            }
+        }
+        if (t2 == 0) { cout << "Wrong password\n"; }
+        else {
+            cout << "You entered!\n";
+            if (users[ww].admin == 0) {
+                while (true) {
+                    cout << " If you want to see the books print 1\n If you want to log out print 2\n";
+                    string answer;
+                    cin >> answer;
+                    if (answer == "1") {
+                        seebooks(books, bookssize);
+                    }
+                    else if (answer == "2") { break; }
+                    else { continue; }
+                }
+            }
+            else {
+                while (users[ww].admin == 1) {
+                    cout << " If you want to see the books print 1\n If you want to add book print 2\n If you want to take away admin from user print 3\n If you want to make user admin print 4\n If you want to log out print 5\n";
+                    string answer;
+                    cin >> answer;
+                    if (answer == "1") {
+                        seebooks(books, bookssize);
+                    }
+                    else if (answer == "2") {
+                        addbooks(books, bookssize);
+                    }
+                    else if (answer == "3") {
+                        string username;
+                        cout << "Print user's username\n";
+                        cin >> username;
+                        if (users == nullptr) {
+                            cout << "There's no users\n";
+                        }
+                        else {
+                            for (int l = 0; l < size; l++) {
+                                if (users[l].name == username) {
+                                    users[l].admin = 0;
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                    else if (answer == "4") {
+                        string username;
+                        cout << "Print user's username\n";
+                        cin >> username;
+                        if (users == nullptr) {
+                            cout << "There's no users\n";
+                        }
+                        else {
+                            for (int l = 0; l < size; l++) {
+                                if (users[l].name == username) {
+                                    users[l].admin = 1;
+                                    break;
+                                }
+
+                            }
+                        }
+                    }
+                    else if (answer == "5") { break; }
+                    else { continue; }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+int main()
+{
+
+    int size = 0;
+    User* users = nullptr;
+    string* books = nullptr;
+    int bookssize = 0;
+    int a = 0, s = 0, i = 0, t = 1, t2 = 1;
+    readFileBooks(books, bookssize);
+    while (true) {
+        string n;
+
+        cout << " If you want to register print 1\n If you want to log in print 2\n If you want to quit print 3\n";
+        cin >> n;
+        if (n[0] == '1') {
+            regist(users, books, size, bookssize, i);
+        }
+        else if (n[0] == '2') {
+            login(users, books, size, bookssize, i);
+        }
+        else if (n[0] == '3') {
+            break;
+        }
+        else { continue; }
+    }
+}
